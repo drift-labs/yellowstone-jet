@@ -361,8 +361,14 @@ where
             let ts = Instant::now();
             async move {
                 let (status, body) = get_response_fut.await;
-                let response = Response::builder()
-                    .status(status)
+                let mut response_builder = Response::builder().status(status);
+                
+                // Add Prometheus header if this is the metrics endpoint
+                if uri == "/metrics" {
+                    response_builder = response_builder.header("content-type", "text/plain; version=0.0.4; charset=utf-8");
+                }
+                
+                let response = response_builder
                     .body(Body::new(body))
                     .expect("failed to create response");
                 debug!(

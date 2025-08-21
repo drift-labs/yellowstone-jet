@@ -63,4 +63,4 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.ref_name }}
         run: |
-          # kubectl rollout restart -n $BRANCH_NAME deployment/jet-proxy
+          kubectl rollout restart -n $BRANCH_NAME deployment/jet-proxy
